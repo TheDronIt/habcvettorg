@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	{% load static %}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	
+	<title>ХабЦветТорг</title>
+	<meta name="description" content="" />
+	<meta name="Keywords" content="" /> 
+	<meta name="robots" content="index, follow" />
+
+	<meta property="og:title" content="" /> 
+	<meta property="og:description" content="" />
+	<meta name="og:locale" content="ru_RU">
+    <meta property="og:image" content="{% static 'web/img/meta-logo.png' %}" />
+
+	<link rel="canonical" href="" />
+	<link rel="shortcut icon" href="{% static 'web/img/favicon.ico' %}" type="image/x-icon">
+	
+	<link rel="stylesheet" href="{% static 'web/include/splide/dist/css/splide.min.css' %}">
+	<script src="{% static 'web/include/splide/dist/js/splide.min.js' %}"></script>
+	<script src="{% static 'web/include/splide/dist/js/splide-auto-scroll.js' %}"></script>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/include.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/mobile.css' %}">
+
+	
+	
+</head>
+<body>
+	{% block content %}
+	{% include 'include/nav.html' %}
+	<!--
+	<section class="banner">
+		
+	</section>-->
+	<section class="wrapper">
+		
+		{% if Banners %}
+		<div class="banner_slider">
+			<div class="splide__track">
+				<ul class="splide__list banner_slider_list">
+					{% for Banner in Banners %}
+					<a class="splide__slide banner_slide" href="{{Banner.Link}}">
+						<img src="{{Banner.Image.url}}" alt=" ">
+					</a>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+		{% endif %}
+		
+		{% for Tag, ProductList in tags.items %}
+		<div class="card__block">
+			<h2>{{Tag.Name}}</h2>
+			<div class="card__container">
+				{% for Product in ProductList %}
+					{% include 'include/product.html' %}
+				{% endfor %}
+
+			</div>
+		</div>
+		{% endfor %}
+
+		<div class="index-more-button">
+			<a href="/catalog" class="button">
+				Больше букетов
+			</a>
+		</div>
+		
+		<div class="index-slogan">
+			<h2>ХабЦветТорг это</h2>
+			<div class="index-slogan__container">
+				<div class="index-slogan_el">
+					<img src="{% static 'web/img/icons/flowers.png' %}" alt="">
+					<h3>Свежие цветы</h3>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+				</div>
+				<div class="index-slogan_el">
+					<img src="{% static 'web/img/icons/flowers.png' %}" alt="">
+					<h3>Свежие цветы</h3>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+				</div>
+				<div class="index-slogan_el">
+					<img src="{% static 'web/img/icons/flowers.png' %}" alt="">
+					<h3>Свежие цветы</h3>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+				</div>
+				<div class="index-slogan_el">
+					<img src="{% static 'web/img/icons/flowers.png' %}" alt="">
+					<h3>Свежие цветы</h3>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+				</div>
+			</div>
+		</div>
+
+
+	<div class="index-thanks">
+		<h2>Нам говорят спасибо</h2>
+		<div class="splide">
+			<div class="splide__track">
+				<ul class="splide__list">
+					<li class="splide__slide">
+						<img src="{% static 'web/img/wa_screen.jpg' %}">
+					</li>
+					<li class="splide__slide">
+						<img src="{% static 'web/img/wa_screen.jpg' %}">
+					</li>
+					<li class="splide__slide">
+						<img src="{% static 'web/img/wa_screen.jpg' %}">
+					</li>
+					<li class="splide__slide">
+						<img src="{% static 'web/img/wa_screen.jpg' %}">
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="index-thanks__mobile">
+		<h2>Нам говорят спасибо</h2>
+		<div class="splide__mobile">
+			<div class="splide__track splide__track__mobile">
+				<ul class="splide__list splide__list__mobile">
+					<li class="splide__slide spliede__mobile_el">
+						<img src="{% static 'web/img/wa_screen.jpg' %}">
+					</li>
+					<li class="splide__slide">
+						<img src="{% static 'web/img/wa_screen.jpg' %}">
+					</li>
+					<li class="splide__slide">
+						<img src="{% static 'web/img/wa_screen.jpg' %}">
+					</li>
+					<li class="splide__slide">
+						<img src="{% static 'web/img/wa_screen.jpg' %}">
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+	</section>
+
+	<script type="text/javascript">
+		var splide = new Splide( '.splide', {
+			type   : 'loop',
+			perPage: 4,
+			focus  : 'center',
+		});
+
+		splide.mount();
+
+
+		var splide = new Splide( '.splide__mobile', {
+			type   : 'loop',
+			perPage: 1,
+			focus  : 'center',
+		});
+
+		splide.mount();
+		
+
+
+		var banner_splide = new Splide( '.banner_slider', {
+			type   : 'loop',
+			focus  : 'center',
+			autoScroll: {
+				speed: 2,
+			},
+		});
+		banner_splide.mount();
+
+	</script>
+
+	{% include 'include/footer.html' %}
+	{% endblock %}
+</body>
+</html>

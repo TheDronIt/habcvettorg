@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	{% load static %}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	
+	<title>ХабЦветТорг</title>
+	<meta name="description" content="" />
+	<meta name="Keywords" content="" /> 
+	<meta name="robots" content="index, follow" />
+
+	<meta property="og:title" content="" /> 
+	<meta property="og:description" content="" />
+	<meta name="og:locale" content="ru_RU">
+    <meta property="og:image" content="{% static 'web/img/meta-logo.png' %}" />
+
+	<link rel="canonical" href="" />
+	<link rel="shortcut icon" href="{% static 'web/img/favicon.ico' %}" type="image/x-icon">
+	
+
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/include.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/mobile.css' %}">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<script type="text/javascript" src="{% static 'web/include/slick/slick.min.js' %}"></script>
+	
+	<link rel="stylesheet" type="text/css" href="{% static 'web/include/slick/slick.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'web/include/slick/slick-theme.css' %}"/>
+
+
+
+	<!--<link rel="stylesheet" href="{% static 'web/include/plyr/' %}" />-->
+	<!--
+	<link rel="stylesheet" href="{% static 'web/include/jquery.fancybox/fancybox/jquery.fancybox-1.3.4.css' %}" type="text/css" media="screen" />
+	<script type="text/javascript" src="{% static 'web/include/jquery.fancybox/fancybox/jquery.easing-1.3.pack.js' %}"></script>
+	-->
+
+	
+	
+	
+</head>
+<body>
+	{% block content %}
+	{% include 'include/nav.html' %}
+	<section class="wrapper">
+		<div class="page-info">
+			<a href="/">Главная</a> > <a href="/catalog">Каталог</a> > <a href="/catalog/{{Product.Category.id}}">{{Product.Category}}</a> > {{Product.Name}}
+			<h1>{{Category.Name}}</h1>
+		</div>
+
+
+		<div class="product__container">
+			<div class="product_photo">
+				<div class="product_photo_main">
+					<div>
+						<img src="{{Product.Image.url}}">
+					</div>
+					{% for Product in Product.Images.all %}
+					<div>
+						<img src="{{Product.Image.url}}">
+					</div>
+					{% endfor %}
+
+				</div>
+				{% if Product.Images.all|length > 0 %}
+				<div class="product_photo_second">
+				    <div>
+						<img src="{{Product.Image.url}}">
+					</div>
+					
+					{% for Product in Product.Images.all %}
+					<div>
+						<img src="{{Product.Image.url}}">
+					</div>
+					{% endfor %}
+
+					{% if Product.Images.all|length < 5 %}
+						<div>
+							<img src="{{Product.Image.url}}">
+						</div>
+						{% for Product in Product.Images.all %}
+						<div>
+							<img src="{{Product.Image.url}}">
+						</div>
+						{% endfor %}
+					{% endif %}
+
+				</div>
+				{% endif %}
+			</div>
+			
+			<div class="product_info">
+				<h1>{{Product.Name}}</h1>
+				<div class="product_info_about">
+					{{Product.Description|safe}}
+				</div>
+				<div class="product_info_bottom">
+					<span class="product_info_bottom_price">{{Product.Price}} ₽</span>
+					<form method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="id" value="{{Product.id}}">	
+						<input name="button" type="submit" value="В корзину" class="button">
+					</form>
+				</div>
+			</div>
+
+			{% if Product.Video %}
+			<div class="product_video">
+				<h2>Видеообзор</h2>
+				<video id="player" playsinline controls>
+					<source src="{{Product.Video.url}}" type="video/webm" />
+					<source src="{{Product.Video.url}}" type="video/mp4" />
+				</video>
+			</div>
+			{% endif %}
+		</div>
+		
+		{% include 'include/popular.html' %}
+		
+	</section>
+	{% include 'include/footer.html' %}
+	{% endblock %}
+	<script type="text/javascript">
+		$('.product_photo_main').slick({
+		    infinite: true,
+		    slidesToShow: 1,
+		    slidesToScroll: 1,
+		    /*initialSlide: 1,*/
+		    arrows: true,
+		    asNavFor: '.product_photo_second'
+		});
+
+		$('.product_photo_second').slick({
+		    slidesToShow: 2,
+		    slidesToScroll: 1,
+		    arrows: false,
+		    centerMode: true,
+		    focusOnSelect: true,
+
+		    asNavFor: '.product_photo_main',
+		    responsive: [
+		    {
+		        breakpoint: 768,
+		        settings: {
+		        swipe: true
+		    }
+		}
+		]
+	});
+	</script>
+</body>
+</html>

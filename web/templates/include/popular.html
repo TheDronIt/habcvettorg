@@ -1,0 +1,7 @@
+<hr class="card__block__hr">
+	<h2>Вам понравится</h2>
+	<div class="card__container">
+	{% for Product in Popular %}
+		{% include 'include/product.html' %}
+	{% endfor %}
+</div>

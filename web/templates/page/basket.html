@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	{% load static %}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	
+	<title>ХабЦветТорг</title>
+	<meta name="description" content="" />
+	<meta name="Keywords" content="" /> 
+	<meta name="robots" content="index, follow" />
+
+	<meta property="og:title" content="" /> 
+	<meta property="og:description" content="" />
+	<meta name="og:locale" content="ru_RU">
+    <meta property="og:image" content="{% static 'web/img/meta-logo.png' %}" />
+
+	<link rel="canonical" href="" />
+	<link rel="shortcut icon" href="{% static 'web/img/favicon.ico' %}" type="image/x-icon">
+	
+
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/include.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/mobile.css' %}">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+</head>
+<body>
+	{% block content %}
+	{{Basket_price}}
+	{% include 'include/nav.html' %}
+
+	<section class="wrapper">
+
+		<div class="page-info">
+			<a href="/">Главная</a> > Корзина
+			<h1>Корзина</h1>
+		</div>
+
+
+		{% if Product_list|length > 0 %}
+		<div class="basket__container">
+			<div class="basket_grid">
+				<div class="basket_grid_info basket__grid">
+					<div>Товар</div>
+					<div></div>
+					<div>Цена за ед.</div>
+					<div>Кол-во</div>
+					<div>Итого</div>
+					<div></div>
+				</div>
+
+				{% for Product in Product_list %}
+				<div class="basket_grid_product">
+					<form method="POST" class="basket__grid">
+						{% csrf_token %}
+						<input type="hidden" name="product_id" value="{{Product.Id}}" />
+						<div class="basket_grid_product__image">
+							<img src="{{Product.Image}}">
+						</div>
+						<div class="basket_grid_product__name">
+							<a href="{{Product.Link}}">{{Product.Name}}</a>
+						</div>
+						<div>{{Product.Price}} ₽</div>
+						<div class="basket_grid_product__value">
+							<input type="submit" name="button" value="-" class="basket__button">
+							<span>{{Product.Value}}</span>
+							<input type="submit" name="button" value="+" class="basket__button">
+						</div>
+						<div>{{Product.Full_price}} ₽</div>
+						<div>
+							<input type="submit" name="button" value="✖" class="basket__button">
+						</div>
+					</form>
+				</div>
+				{% endfor %}
+
+			</div>
+
+
+			<div class="basket__grid__mobile">
+				
+			{% for Product in Product_list %}
+				<form method="POST" class="mobile_basket__grid">
+					{% csrf_token %}
+					<input type="hidden" name="product_id" value="{{Product.Id}}" />
+					<input type="hidden" name="product_size" value="{{Product.Size}}" />
+					<div class="mobile_basket_image">
+						<img src="{{Product.Image}}">
+					</div>
+
+					<div class="mobile_basket__grid__info">
+						<div class="mobile_basket_product__name">
+							<a href="{{Product.Link}}">{{Product.Name}}</a>
+						</div>
+						<div class="mobile_basket_grid_product__value">
+							<div class="mobile_basket_grid_product__value_change">
+								<input type="submit" name="button" value="-" class="basket__button">
+								<span>{{Product.Value}}</span>
+								<input type="submit" name="button" value="+" class="basket__button">
+							</div class="mobile_basket_grid_product__value_dell">
+							
+							<div>
+								<input type="submit" name="button" value="✖" class="basket__button">
+							</div>
+							
+						</div>
+
+						<div>
+							<b>Цена</b><br>
+							За единицу: {{Product.Price}} ₽<br>
+							Итого: {{Product.Full_price}} ₽
+						</div>
+					</div>
+					
+					
+				</form>
+			
+			{% endfor %}
+		</div>
+			
+
+			<form method="POST" class="basket_order">
+				{% csrf_token %}
+				<div class="basket_order_form">
+					<h2>Оформление заказа</h2>
+
+					<div class="basket_order_el">
+						<b>Отправитель</b>
+						<input type="input" name="Sender_Name" placeholder="Имя" class="basket_order__input">
+						<input type="tel" name="Sender_Phone" placeholder="Телефон" class="basket_order__input">
+						<input type="email" name="Sender_Name" placeholder="Почта (необазятельно)" class="basket_order__input">
+					</div>
+
+					
+					
+
+					<div class="basket_order_el">
+						<b>Способ получения</b>
+						<input type="radio" name="Delivery" id="pickup" class="checkbox_pickup delivery_checkbox" value="1" checked>Самовывоз<br>
+						<input type="radio" name="Delivery" id="delivery" class="checkbox_delivery-city delivery_checkbox" value="2">Доставка по городу<br>
+						<input type="radio" name="Delivery" id="delivery" class="checkbox_delivery-out-city delivery_checkbox" value="2">Доставка вне города (до 10 км)<br>
+
+						<br>
+
+						<label for="delivery" class="delivery__label">
+							<div class="basket_order_el">
+								<b>Получатель</b>
+								<input type="input" name="Geter_Name" placeholder="Имя" class="basket_order__input">
+								<input type="input" name="Geter_Phone" placeholder="Телефон" class="basket_order__input">
+								<input type="input" name="Geter_Address" placeholder="Адрес доставки" class="basket_order__input">
+								<input type="date" name="Geter_Delivery_date" placeholder="Дата доставки" class="basket_order__input" value={{datetime|first}} min="{{datetime|first}}">
+								<input type="time" name="Geter_Delivery_time" placeholder="Время доставки" class="basket_order__input" min="09:00" max="19:00" required=>
+								<input type="input" name="Geter_Comment" placeholder="Комментарий к заказу" class="basket_order__input">
+							</div>					
+
+							<!--
+							<div class="basket_order_attantion">
+								<span>Внимание!</span> К итоговой стоимости за товары прибавляется <a href="/delivery/" target="_blank" style="text-decoration: underline;">стоимость доставки</a>
+							</div>
+							-->
+						</label>
+
+						<label for="pickup" class="pickup__label">
+							<div class="basket_order_el">
+								<b>Адрес самовывоза</b>
+								г. Хабаровск, ул. Шевчука, д. 28/2
+							</div>
+
+						
+						</label>
+
+					</div>
+
+					<div class="basket_order_el">
+						<span class="delivery_city delivery">
+							<b>Цена доставки:</b>
+							280 ₽
+							<br><br>
+							Ориентировочное время доставки 2 часа
+						</span>
+						<span class="delivery_out-city delivery">
+							<b>Цена доставки:</b>
+							380 ₽
+							<br><br>
+							Ориентировочное время доставки 2 часа
+						</span>
+					</div>
+
+
+				</div>
+				<div class="basket_order_result">
+					<span class="basket_order_result__text">
+						<b>Итого: </b>
+						<span class="result_basket_price">{{BasketPrice}}</span> ₽
+						<span class="hidden_basket_price">{{BasketPrice}}</span>
+						<br>
+						<div class="delivery_result_price">
+						</div>
+					</span>
+					<input type="submit" name="button" value="Оформить" class="button_basket-order button">
+				</div>
+			</form>
+
+		</div>
+		{% else %}
+		
+		<div class="basket_empty__container">
+			<span>
+				Ваша корзина пуста<br>
+				Выберете товар в каталоге чтобы добавить его в корзину
+			</span>
+			<a href="/catalog" class="button">Каталог</a>
+		</div>
+
+		{% endif %}
+
+	</section>
+
+	{% include 'include/footer.html' %}
+	{% endblock %}
+
+
+	<script type="text/javascript">
+		$(".delivery_checkbox").on("click", function () {
+
+			var $basket_price =  parseInt($("span.hidden_basket_price").text());
+
+			$('.delivery').css('display', 'none');
+
+			if ($(".checkbox_delivery-city").prop("checked") === true) {
+				$('.delivery_city').css('display', 'block');
+				var $basket_price = $basket_price + 280
+			}
+			if ($(".checkbox_delivery-out-city").prop("checked") === true) {
+				$('.delivery_out-city').css('display', 'block');
+				var $basket_price = $basket_price + 380
+			}
+
+			$('span.result_basket_price').text($basket_price)
+		})
+		
+	</script>
+</body>
+</html>

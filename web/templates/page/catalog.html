@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	{% load static %}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	
+	<title>ХабЦветТорг</title>
+	<meta name="description" content="" />
+	<meta name="Keywords" content="" /> 
+	<meta name="robots" content="index, follow" />
+
+	<meta property="og:title" content="" /> 
+	<meta property="og:description" content="" />
+	<meta name="og:locale" content="ru_RU">
+    <meta property="og:image" content="{% static 'web/img/meta-logo.png' %}" />
+
+	<link rel="canonical" href="" />
+	<link rel="shortcut icon" href="{% static 'web/img/favicon.ico' %}" type="image/x-icon">
+	
+	<link rel="stylesheet" href="{% static 'web/splide/dist/css/splide.min.css' %}">
+	<script src="{% static 'web/splide/dist/js/splide.min.js' %}"></script>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/include.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/mobile.css' %}">
+
+	
+	
+</head>
+<body>
+	{% block content %}
+	{% include 'include/nav.html' %}
+	<section class="wrapper">
+		<div class="page-info">
+			<a href="/">Главная</a> > Каталог
+			<h1>Каталог</h1>
+		</div>
+
+
+		
+		<div class="catalog__container">
+
+			{% for Category in Categorys %}
+			<a class="catalog_el" style="background-color: {{Category.Color}};" href="/catalog/{{Category.id}}">
+				<div class="catalog_el__name">
+					{{ Category.Name }}
+				</div>
+				<div class="catalog_el_image">
+					<img src="{{ Category.Image.url }}">
+				</div>
+			</a>
+			{% endfor %}
+			
+		</div>
+	</section>
+	{% include 'include/footer.html' %}
+	{% endblock %}
+</body>
+</html>

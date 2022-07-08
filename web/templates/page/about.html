@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	{% load static %}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	
+	<title>ХабЦветТорг</title>
+	<meta name="description" content="" />
+	<meta name="Keywords" content="" /> 
+	<meta name="robots" content="index, follow" />
+
+	<meta property="og:title" content="" /> 
+	<meta property="og:description" content="" />
+	<meta name="og:locale" content="ru_RU">
+    <meta property="og:image" content="{% static 'web/img/meta-logo.png' %}" />
+
+	<link rel="canonical" href="" />
+	<link rel="shortcut icon" href="{% static 'web/img/favicon.ico' %}" type="image/x-icon">
+	
+
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/include.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/mobile.css' %}">
+
+
+
+
+	
+	
+	
+</head>
+<body>
+	{% block content %}
+	{% include 'include/nav.html' %}
+	<section class="wrapper">
+		<div class="page-info">
+			<a href="/">Главная</a> > О нас
+			<h1>О нас</h1>
+		</div>
+
+		<div class="about__container">
+			<div class="about_staff">
+				<div class="about_staff_el">
+					<img src="{% static 'web/img/man.jpg' %}">
+					<span class="about_staff_el_name">Имя</span>
+					<span class="about_staff_el_post">Имя</span>
+				</div>
+			</div>
+
+			<div class="about_staff">
+				<div class="about_staff_el">
+					<img src="{% static 'web/img/man.jpg' %}">
+					<span class="about_staff_el_name">Имя</span>
+					<span class="about_staff_el_post">Имя</span>
+				</div>
+			</div>
+
+			<div class="about_staff">
+				<div class="about_staff_el">
+					<img src="{% static 'web/img/man.jpg' %}">
+					<span class="about_staff_el_name">Имя</span>
+					<span class="about_staff_el_post">Имя</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="about_plus">
+			<h2>Тема 1</h2>
+			<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+		</div>
+
+		<div class="about_plus">
+			<h2>Тема 2</h2>
+			<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+		</div>
+
+		<div class="about_plus">
+			<h2>Тема 3</h2>
+			<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+		</div>
+		
+	</section>
+	{% include 'include/footer.html' %}
+	{% endblock %}
+</body>
+</html>

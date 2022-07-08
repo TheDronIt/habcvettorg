@@ -1,0 +1,37 @@
+{% load static %}
+<nav>
+	<input id="menu__toggle" type="checkbox" />
+	<label class="menu__btn" for="menu__toggle">
+		<span></span>
+	</label>
+	<div class="nav__container">
+		<div class="nav_main">
+			<a href="/" class="nav_main_logo">
+				<!--<img src="{% static 'web/img/logo.svg' %}" alt="">-->
+				<div class="nav_main_logo_brand">ХабЦветТорг</div>
+			</a>
+			<div class="nav_main_link">
+				<a href="/">Главная</a>
+				<a href="/catalog">Каталог</a>
+				<a href="/blog">Блог</a>
+				<a href="/about">О нас</a>
+				<a href="/contacts">Контакты</a>
+			</div>
+			<div class="nav_main_search-and-basket__container">
+				<form method="GET" action="/search" class="nav_main_search">
+					<input type="text" name="q" placeholder="Поиск">
+					<img src="{% static 'web/img/icons/search.svg' %}" alt=" ">
+				</form>
+				<a href="/basket" class="nav_main_basket">
+					<img src="{% static 'web/img/icons/basket.png' %}" alt=" ">
+				</a>
+			</div>
+		</div>
+		<div class="nav_category">
+			{% for Category in Nav_category %}
+				<a href="/catalog/{{Category.id}}">{{Category.Name}}</a>
+			{% endfor %}
+		</div>
+		
+	</div>
+</nav>

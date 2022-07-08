@@ -1,0 +1,13 @@
+<a class="card" href="/product/{{Product.id}}">
+	<div class="card_labels">
+		{% for tag in Product.Tags.all %}
+			<span style="background-color: #{{tag.Color}}">{{tag}}</span>
+		{% endfor %}
+	</div>
+	<div class="card__image">
+		<img src="{{Product.Image.url}}" alt="">
+	</div>
+	<div class="card__text card_headline">{{Product.Name}}</div>
+	<div class="card__text card_about">{{Product.Short_description}}</div>
+	<div class="card__text">{{Product.Price}} ₽</div>
+</a>

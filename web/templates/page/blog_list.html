@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	{% load static %}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	
+	<title>ХабЦветТорг</title>
+	<meta name="description" content="" />
+	<meta name="Keywords" content="" /> 
+	<meta name="robots" content="index, follow" />
+
+	<meta property="og:title" content="" /> 
+	<meta property="og:description" content="" />
+	<meta name="og:locale" content="ru_RU">
+    <meta property="og:image" content="{% static 'web/img/meta-logo.png' %}" />
+
+	<link rel="canonical" href="" />
+	<link rel="shortcut icon" href="{% static 'web/img/favicon.ico' %}" type="image/x-icon">
+	
+
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/main.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/include.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/mobile.css' %}">
+
+
+
+
+	
+	
+	
+</head>
+<body>
+	{% block content %}
+	{% include 'include/nav.html' %}
+	<section class="wrapper">
+		<div class="page-info">
+			<a href="/">Главная</a> > Блог
+			<h1>Блог</h1>
+		</div>
+
+		<div class="blog__container">
+
+			{% for Blog in Blogs %}
+			<div class="blog_card">
+				<div>
+					<img src="{{Blog.Image.url}}">
+					<span class="blog_card_date">{{Blog.Date}}</span>
+				</div>
+				<div class="blog_card_info">
+					<h2>{{Blog.Title}}</h2>
+					<span>
+						{{Blog.About}} 
+					</span>
+					<a class="blog_card_info_button button" href="/blog/{{Blog.id}}">Читать</a>
+				</div>
+			</div>
+			{% endfor %}
+
+		</div>
+		
+	</section>
+	{% include 'include/footer.html' %}
+	{% endblock %}
+</body>
+</html>
