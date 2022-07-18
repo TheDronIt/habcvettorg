@@ -3,14 +3,27 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 import datetime
 import random
 from .models import *
+import uuid
+from django.views.decorators.csrf import csrf_exempt
+from yookassa import Configuration, Payment
+import json
+import traceback
+
+
+
+Configuration.account_id = 860268
+Configuration.secret_key = 'test_SgoBIO7txIDy-CU-jHhgyo5CTmZqjeijgqM_81xAyQU'
 
 now = datetime.datetime.now()
+
+
 
 
 def index__page(request):
 
 	tags = {}
 	Tags = Tag.objects.filter(Visible_status="Отображать")
+
 
 	for tag in Tags:
 		tags[tag] = Product.objects.filter(Tags__Name=tag)[:4]
@@ -19,6 +32,7 @@ def index__page(request):
 		'tags': tags,
 		'Banners': Banner.objects.all(),
 		'Nav_category': nav_category(),
+		'ThanksList': Thanks.objects.all().order_by("?")[:6]
 	}
 	return render(request, 'page/index.html', data)
 
@@ -34,7 +48,7 @@ def catalog__page(request):
 
 def product_catalog__page(request, id):
 	Category_info = Category.objects.get(id=id)
-	Products = Product.objects.all()
+	Products = Product.objects.filter(Category__id=id)
 	data = {
 		'Products': Products,
 		'Category': Category_info,
@@ -124,8 +138,6 @@ def basket__page(request):
 			if button == "+" or button == "-" or button == "✖":
 				
 				product_id = request.POST['product_id']
-				print(product_id)
-				
 				
 				if button == "+":
 					Basket.objects.filter(session_key=session_key(request)).filter(product_id=product_id).update(product_value = int(product_value(request))+1)
@@ -137,8 +149,80 @@ def basket__page(request):
 				
 				elif button == "✖":
 					Basket.objects.filter(session_key=session_key(request)).filter(product_id=product_id).delete()
-
 				return HttpResponseRedirect("/basket")
+
+			if button == "Оформить":
+
+				Name_Sender = ""
+				Phone_Sender = ""
+				Email_Sender = ""
+				Delivery_type = ""
+				Name_Receiver = ""
+				Phone_Receiver = ""
+				Address = ""
+				Date = None
+				Time = None
+				Comment = ""
+
+				delivery_price = 0
+
+				if request.POST['Sender_Name']:
+					Name_Sender = request.POST['Sender_Name']
+
+				if request.POST['Sender_Phone']:
+					Phone_Sender = request.POST['Sender_Phone']
+
+				if request.POST['Sender_Email']:
+					Email_Sender = request.POST['Sender_Email']
+
+				if request.POST['Delivery']:
+					if request.POST['Delivery'] == "1":
+						Delivery_type = "Самовывоз"
+					elif request.POST['Delivery'] == "2":
+						Delivery_type = "Доставка"
+						delivery_price = 280
+					elif request.POST['Delivery'] == "3":
+						Delivery_type = "Доставка вне города"
+						delivery_price = 380
+					
+
+				if request.POST['Delivery'] == "2" or request.POST['Delivery'] == "3":
+					if request.POST['Geter_Name']:
+						Name_Receiver = request.POST['Geter_Name']
+
+					if request.POST['Geter_Phone']:
+						Phone_Receiver = request.POST['Geter_Phone']
+
+					if request.POST['Geter_Address']:
+						Address = request.POST['Geter_Address']
+
+					if request.POST['Geter_Delivery_date']:
+						Date = request.POST['Geter_Delivery_date']
+
+					if request.POST['Geter_Delivery_time']:
+						Time = request.POST['Geter_Delivery_time']
+
+					if request.POST['Geter_Comment']:
+						Comment = request.POST['Geter_Comment']
+
+				db = Yookassa(session_key=str(session_key(request)), Name_Sender=Name_Sender, Phone_Sender=Phone_Sender, Email_Sender=Email_Sender, Delivery_type=Delivery_type, Name_Receiver=Name_Receiver, Phone_Receiver=Phone_Receiver, Address=Address, Date=Date, Time=Time, Comment=Comment)
+				db.save()
+
+				
+
+				payment = Payment.create({
+					"amount": {
+						"value": int(basket_price(request))+int(delivery_price),
+						"currency": "RUB"
+					},
+					"confirmation": {
+						"type": "redirect",
+						"return_url": "https://HabCvetTorg.ru"
+					},
+					"capture": True,
+					"description": str(session_key(request))
+				}, uuid.uuid4())
+				return HttpResponseRedirect(payment.confirmation.confirmation_url)
 	
 	data = {
 		'Product_list': product_list,
@@ -159,13 +243,94 @@ def search__page(request):
 			if request.GET['q']:
 				query = request.GET['q']
 				query_result = Product.objects.filter(Name__icontains=query)
-				print(query_result)
 	data = {
 		"Nav_category": nav_category(),
 		"Query_result": query_result,
 		"Query": query
 	}
 	return render(request, 'page/search.html', data)
+
+
+
+
+
+@csrf_exempt
+def Yookassa_payment(request):
+	try:
+		yookassa_json = json.loads(request.body)
+		payment_id = yookassa_json['object']['id']
+
+		if yookassa_json['event'] == "payment.waiting_for_capture":
+			Payment.capture(payment_id)
+
+		if yookassa_json['event'] == "payment.succeeded":
+			
+			session_key = yookassa_json['object']['description']
+
+			Products = Basket.objects.filter(session_key=session_key)
+			
+			
+
+			if int(len(Products)) > 0 :
+				Product_list = []
+				db_Order = ""
+				number = 1
+
+				Customer = Yookassa.objects.filter(session_key=session_key).order_by('-id')[:1]
+				
+
+				
+
+				for product in Products:	
+					AboutProduct = Product.objects.get(id=int(product.product_id))
+
+					Product_list.append(
+						dict(
+							name = AboutProduct.Name,
+							product_value = product.product_value,
+							price_one = AboutProduct.Price,
+							price_full = AboutProduct.Price * product.product_value,
+						)
+					)
+
+				
+
+
+				full_price = 0
+				
+				for product in Products:
+					full_price = (Product.objects.get(id=product.product_id).Price * product.product_value) + full_price
+
+				
+				for product in Product_list:
+					db_Order = str(db_Order) + str(number) + ") " + str(product['name']) + " | Кол-во: " + str(product['product_value']) + " | За один: " + str(product['price_one']) + " | Цена: " + str(product['price_full']) + "\n"
+					number += 1
+				
+
+				#Добавить к фулл прайсу стоимость за доставку
+
+				for Customer in Customer:
+					
+					if Customer.Delivery_type == "Доставка":
+						full_price += 280
+					elif Customer.Delivery_type == "Доставка вне города":
+						full_price += 380
+
+
+					db = Order(Name_Sender=str(Customer.Name_Sender), Phone_Sender=str(Customer.Phone_Sender), Email_Sender=str(Customer.Email_Sender), Products=str(db_Order), Delivery_type=str(Customer.Delivery_type), Name_Receiver=str(Customer.Name_Receiver), Phone_Receiver=str(Customer.Phone_Receiver), Address=str(Customer.Address), Date=Customer.Date, Time=Customer.Time, Comment=str(Customer.Comment), Price=str(full_price))
+					db.save()
+				Basket.objects.filter(session_key=session_key).delete()
+			
+
+			
+	except Exception as err:
+		print(err)
+		traceback.print_exc()
+
+	return render(request, 'page/yookassapayment.html')
+
+
+
 
 
 

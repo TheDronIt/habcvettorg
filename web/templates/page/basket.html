@@ -131,9 +131,9 @@
 
 					<div class="basket_order_el">
 						<b>Отправитель</b>
-						<input type="input" name="Sender_Name" placeholder="Имя" class="basket_order__input">
-						<input type="tel" name="Sender_Phone" placeholder="Телефон" class="basket_order__input">
-						<input type="email" name="Sender_Name" placeholder="Почта (необазятельно)" class="basket_order__input">
+						<input type="input" name="Sender_Name" placeholder="Имя" class="basket_order__input" required>
+						<input type="tel" name="Sender_Phone" placeholder="Телефон" class="basket_order__input" required>
+						<input type="email" name="Sender_Email" placeholder="Почта (необазятельно)" class="basket_order__input">
 					</div>
 
 					
@@ -143,7 +143,7 @@
 						<b>Способ получения</b>
 						<input type="radio" name="Delivery" id="pickup" class="checkbox_pickup delivery_checkbox" value="1" checked>Самовывоз<br>
 						<input type="radio" name="Delivery" id="delivery" class="checkbox_delivery-city delivery_checkbox" value="2">Доставка по городу<br>
-						<input type="radio" name="Delivery" id="delivery" class="checkbox_delivery-out-city delivery_checkbox" value="2">Доставка вне города (до 10 км)<br>
+						<input type="radio" name="Delivery" id="delivery" class="checkbox_delivery-out-city delivery_checkbox" value="3">Доставка вне города (до 10 км)<br>
 
 						<br>
 
@@ -153,16 +153,11 @@
 								<input type="input" name="Geter_Name" placeholder="Имя" class="basket_order__input">
 								<input type="input" name="Geter_Phone" placeholder="Телефон" class="basket_order__input">
 								<input type="input" name="Geter_Address" placeholder="Адрес доставки" class="basket_order__input">
-								<input type="date" name="Geter_Delivery_date" placeholder="Дата доставки" class="basket_order__input" value={{datetime|first}} min="{{datetime|first}}">
-								<input type="time" name="Geter_Delivery_time" placeholder="Время доставки" class="basket_order__input" min="09:00" max="19:00" required=>
+								<input type="date" name="Geter_Delivery_date" placeholder="Дата доставки" class="basket_order__input" min="{{datetime|first}}">
+								<input type="time" name="Geter_Delivery_time" placeholder="Время доставки" class="basket_order__input" min="09:00" max="19:00">
 								<input type="input" name="Geter_Comment" placeholder="Комментарий к заказу" class="basket_order__input">
 							</div>					
 
-							<!--
-							<div class="basket_order_attantion">
-								<span>Внимание!</span> К итоговой стоимости за товары прибавляется <a href="/delivery/" target="_blank" style="text-decoration: underline;">стоимость доставки</a>
-							</div>
-							-->
 						</label>
 
 						<label for="pickup" class="pickup__label">
@@ -198,9 +193,6 @@
 						<b>Итого: </b>
 						<span class="result_basket_price">{{BasketPrice}}</span> ₽
 						<span class="hidden_basket_price">{{BasketPrice}}</span>
-						<br>
-						<div class="delivery_result_price">
-						</div>
 					</span>
 					<input type="submit" name="button" value="Оформить" class="button_basket-order button">
 				</div>

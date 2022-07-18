@@ -13,7 +13,7 @@ urlpatterns = [
     path('contacts/', views.contacts__page),
     path('basket/', views.basket__page),
     path('search/', views.search__page),
-    #path('yookassa/payment', views.Yookassa_payment),
+    path('yookassa/payment', views.Yookassa_payment),
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path('sitemap.xml', TemplateView.as_view(template_name="sitemap.xml", content_type="text/xml"))
     ]

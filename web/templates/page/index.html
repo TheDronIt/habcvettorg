@@ -77,22 +77,22 @@
 				<div class="index-slogan_el">
 					<img src="{% static 'web/img/icons/flowers.png' %}" alt="">
 					<h3>Свежие цветы</h3>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+					Мы имеем регулярные поставки, что позволяет иметь самые свежие цветы в ассортименте
 				</div>
 				<div class="index-slogan_el">
 					<img src="{% static 'web/img/icons/flowers.png' %}" alt="">
-					<h3>Свежие цветы</h3>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+					<h3>Опытные флористы</h3>
+					Каждый наш сотрудник, это флорист с многолетним стажем, который делает максимально качественный букет
 				</div>
 				<div class="index-slogan_el">
 					<img src="{% static 'web/img/icons/flowers.png' %}" alt="">
-					<h3>Свежие цветы</h3>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+					<h3>Самые низкие цены</h3>
+					Все цветы, которые находятся в наших магазинах, привозятся напрямую с цветочных платанций, что напрямую влияет на цену
 				</div>
 				<div class="index-slogan_el">
 					<img src="{% static 'web/img/icons/flowers.png' %}" alt="">
-					<h3>Свежие цветы</h3>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+					<h3>Большой выбор</h3>
+					Мы имеем самых лучших поставщиков, которые привозят большое количетсво различных цветов, из которых, наши флористы, делают различные букеты
 				</div>
 			</div>
 		</div>
@@ -103,18 +103,11 @@
 		<div class="splide">
 			<div class="splide__track">
 				<ul class="splide__list">
-					<li class="splide__slide">
-						<img src="{% static 'web/img/wa_screen.jpg' %}">
+					{% for Screen in ThanksList %}
+					<li class="splide__slide spliede__mobile_el">
+						<img src="{{Screen.Image.url}}" alt=" ">
 					</li>
-					<li class="splide__slide">
-						<img src="{% static 'web/img/wa_screen.jpg' %}">
-					</li>
-					<li class="splide__slide">
-						<img src="{% static 'web/img/wa_screen.jpg' %}">
-					</li>
-					<li class="splide__slide">
-						<img src="{% static 'web/img/wa_screen.jpg' %}">
-					</li>
+					{% endfor %}
 				</ul>
 			</div>
 		</div>
@@ -125,18 +118,11 @@
 		<div class="splide__mobile">
 			<div class="splide__track splide__track__mobile">
 				<ul class="splide__list splide__list__mobile">
+					{% for Screen in ThanksList %}
 					<li class="splide__slide spliede__mobile_el">
-						<img src="{% static 'web/img/wa_screen.jpg' %}">
+						<img src="{{Screen.Image.url}}" alt=" ">
 					</li>
-					<li class="splide__slide">
-						<img src="{% static 'web/img/wa_screen.jpg' %}">
-					</li>
-					<li class="splide__slide">
-						<img src="{% static 'web/img/wa_screen.jpg' %}">
-					</li>
-					<li class="splide__slide">
-						<img src="{% static 'web/img/wa_screen.jpg' %}">
-					</li>
+					{% endfor %}
 				</ul>
 			</div>
 		</div>
@@ -175,6 +161,8 @@
 		banner_splide.mount();
 
 	</script>
+
+	
 
 	{% include 'include/footer.html' %}
 	{% endblock %}

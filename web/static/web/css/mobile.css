@@ -2,19 +2,19 @@
 	.card__container
 	{
 		justify-content: space-between;
-		grid-template-columns: repeat(auto-fit, 175px);
+		grid-template-columns: repeat(auto-fit, 165px);
     	grid-gap: 15px;
 	}
 	.card
 	{
-		grid-template-rows: 175px 50px 40px 20px;
-		width: 175px;
+		grid-template-rows: 165px 50px 40px 20px;
+		width: 165px;
 		height: 295px;
 	}
 	.card__image
 	{
-		width: 175px;
-		height: 175px;
+		width: 165px;
+		height: 165px;
 	}
 	.card_headline
 	{
@@ -32,7 +32,7 @@
 	}
 	.card_labels span
 	{
-		font-size: 1.1rem;
+		font-size: 1rem;
 		padding: 3px 8px;
 	}
 	.index-slogan__container
@@ -127,12 +127,12 @@
 	}
 	.catalog__container
 	{
-		grid-template-columns: repeat(auto-fit, 175px);
+		grid-template-columns: repeat(auto-fit, 165px);
 	}
 	.catalog_el
 	{
-		width: 175px;
-		height: 175px;
+		width: 165px;
+		height: 165px;
 	}
 	.catalog_el__name
 	{

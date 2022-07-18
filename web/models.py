@@ -147,35 +147,36 @@ class Order(models.Model):
 
 	Delivery_type_list = [
 		("Самовывоз", "Самовывоз"),
-		("Доставка", "Доставка")
-	]
-	Payment_status_list = [
-		("Не оплачено", "Не оплачено"),
-		("Оплачено", "Оплачено")
+		("Доставка", "Доставка"),
+		("Доставка вне города", "Доставка вне города")
 	]
 
-	FIO = models.CharField(verbose_name="ФИО", max_length=50)
-	Phone = models.CharField(verbose_name="Телефон", max_length=50)
-	Email = models.CharField(verbose_name="Email", max_length=50)
-	
+
+	Name_Sender = models.CharField(verbose_name="Имя отправителя", max_length=50)
+	Phone_Sender = models.CharField(verbose_name="Телефон отправителя", max_length=50)
+	Email_Sender = models.CharField(verbose_name="Email отправителя", max_length=50, blank=True)
+
 	Products = models.TextField(verbose_name='Заказ')
+	Delivery_type = models.CharField(max_length=50, choices=Delivery_type_list, verbose_name="Тип доставки")
 
-	Delivery_type = models.CharField(max_length=50, choices=Delivery_type_list, verbose_name="Способ получения")	
-
+	Name_Receiver = models.CharField(verbose_name="Имя получателя ", max_length=50)
+	Phone_Receiver = models.CharField(verbose_name="Телефон получателя", max_length=50)
 	Address = models.CharField(verbose_name="Адрес доставки", max_length=50)
-	Date = models.DateField(verbose_name='Дата', blank=True, default=None)
-	Time = models.TimeField(verbose_name='Время', blank=True, default=None)
+	Date = models.DateField(verbose_name='Дата', blank=True, null=True, default=None)
+	Time = models.TimeField(verbose_name='Время', blank=True, null=True, default=None)
 	Comment = models.TextField(verbose_name='Комментарий')
-
-	Payment_status = models.CharField(max_length=50, choices=Payment_status_list, default="Не оплачено", verbose_name="Статус оплаты")
 
 	Price = models.IntegerField(verbose_name='Итоговая цена')
 
 	def __str__(self):
-		return str(self.id)+") "+str(self.FIO)
+		return str(self.id)+") "+str(self.Name_Sender)
 
 
 class Thanks(models.Model):
+	class Meta:
+		verbose_name = "Отзывы"
+		verbose_name_plural = "Отзывы"
+
 	Image = models.FileField(upload_to='thanks/',null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['JPEG','JPG','GIF','PNG','APNG','SVG','BMP','ICO'])], verbose_name="Изображение")
 	def __str__(self):
 		return str(self.id)
@@ -201,8 +202,8 @@ class Yookassa(models.Model):
 	Name_Receiver = models.CharField(verbose_name="ФИО", max_length=50)
 	Phone_Receiver = models.CharField(verbose_name="Телефон", max_length=50)
 	Address = models.CharField(verbose_name="Адрес доставки", max_length=50)
-	Date = models.DateField(verbose_name='Дата', blank=True, default=None)
-	Time = models.TimeField(verbose_name='Время', blank=True, default=None)
+	Date = models.DateField(verbose_name='Дата', blank=True, null=True, default=None)
+	Time = models.TimeField(verbose_name='Время', blank=True, null=True, default=None)
 	Comment = models.TextField(verbose_name='Комментарий')
 
 	def __str__(self):
