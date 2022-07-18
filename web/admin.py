@@ -4,11 +4,14 @@ from .models import *
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
+
 class ProductAdminForm(forms.ModelForm):
     Description = forms.CharField(widget=CKEditorUploadingWidget())
+
     class Meta:
         model = Product
         fields = '__all__'
+
 
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
@@ -16,9 +19,11 @@ class ProductAdmin(admin.ModelAdmin):
 
 class BlogAdminForm(forms.ModelForm):
     About = forms.CharField(widget=CKEditorUploadingWidget())
+
     class Meta:
         model = Blog
         fields = '__all__'
+
 
 class BlogAdmin(admin.ModelAdmin):
     form = BlogAdminForm
@@ -35,3 +40,4 @@ admin.site.register(Order)
 admin.site.register(Banner)
 admin.site.register(Yookassa)
 admin.site.register(Thanks)
+admin.site.register(ContactUS)

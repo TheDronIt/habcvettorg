@@ -1,0 +1,21 @@
+{% load static %}
+<div class="contactus__block">
+	{% if success_form == True %}
+		test
+	{% endif %}
+	<div class="contactus_form">
+		<h2>Связаться с нами</h2>
+		Если у вас есть то вопрос, мы готовы помочь вам.<br>Заполните форму и мы свяжемся с вами!
+		<form class="contactus__container" method="POST">
+			{% csrf_token %}
+			<input type="text" name="Name" placeholder="Имя" class="contactus_input" required>
+			<input type="text" name="Phone" placeholder="Телефон" class="contactus_input" required>
+			<input type="text" name="Email" placeholder="Почта" class="contactus_input">
+			<textarea name="Message" scols="30" rows="3" placeholder="Сообщение"></textarea>
+			<input type="submit" name="button" class="contactus_button button" value="Отправить">
+		</form>
+	</div>
+	<div class="contactus_image">
+		<img src="{% static 'web/img/form-flowers.jpg' %}" alt=" ">
+	</div>
+</div>
